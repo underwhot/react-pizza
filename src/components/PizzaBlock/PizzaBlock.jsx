@@ -18,15 +18,16 @@ export const PizzaBlock = ({
   const pizzaTypes = ['тонкое', 'традиционное'];
 
   return (
-    <div class="pizza-block">
-      <img class="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 class="pizza-block__title">{title}</h4>
-      <div class="pizza-block__selector">
+    <div className="pizza-block">
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <h4 className="pizza-block__title">{title}</h4>
+      <div className="pizza-block__selector">
         <ul>
           {types.map((type, i) => (
             <li
               onClick={() => setActiveType(i)}
               className={activeType === i ? 'active' : ''}
+              key={type}
             >
               {pizzaTypes[type]}
             </li>
@@ -37,18 +38,19 @@ export const PizzaBlock = ({
             <li
               onClick={() => setActiveSize(i)}
               className={activeSize === i ? 'active' : ''}
+              key={size}
             >
               {size} см.
             </li>
           ))}
         </ul>
       </div>
-      <div class="pizza-block__bottom">
-        <div class="pizza-block__price">от {price} ₽</div>
+      <div className="pizza-block__bottom">
+        <div className="pizza-block__price">от {price} ₽</div>
         <button
           type="button"
           onClick={() => setCount(count + 1)}
-          class="button button--outline button--add"
+          className="button button--outline button--add"
         >
           <svg
             width="12"

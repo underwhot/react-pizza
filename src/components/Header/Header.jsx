@@ -1,20 +1,21 @@
+import { Link } from 'react-router-dom';
 import './Header.scss';
 
 export const Header = () => {
   return (
-    <header class="header">
-      <div class="container">
-        <div class="header__logo">
+    <header className="header">
+      <div className="container">
+        <Link to="/" className="header__logo">
           <img width="38" src="./img/pizza-logo.svg" alt="Pizza logo" />
           <div>
             <h1>React Pizza</h1>
             <p>самая вкусная пицца во вселенной</p>
           </div>
-        </div>
-        <div class="header__cart">
-          <a href="/cart.html" class="button button--cart">
+        </Link>
+        <div className="header__cart">
+          <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
-            <div class="button__delimiter"></div>
+            <div className="button__delimiter"></div>
             <svg
               width="18"
               height="18"
@@ -45,7 +46,7 @@ export const Header = () => {
               />
             </svg>
             <span>3</span>
-          </a>
+          </Link>
         </div>
       </div>
     </header>

@@ -1,29 +1,24 @@
-import { Categories } from './components/Categories/Categories';
-import { Header } from './components/Header/Header';
-import { PizzaBlock } from './components/PizzaBlock/PizzaBlock';
-import { Sort } from './components/Sort/Sort';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import dataPizza from './data/pizza';
+import { Header } from './components/Header/Header';
+import { Home } from './pages/Home';
+import { Cart } from './pages/Cart';
+import { NotFound } from './pages/NotFound';
 
 function App() {
   return (
-    <div className="wrapper">
-      <Header></Header>
-      <main className="content">
-        <div className="container">
-          <div className="content__top">
-            <Categories></Categories>
-            <Sort></Sort>
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {dataPizza.map((pizza) => (
-              <PizzaBlock {...pizza} key={pizza.id}></PizzaBlock>
-            ))}
-          </div>
-        </div>
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="wrapper">
+        <Header></Header>
+        <main className="content">
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
 

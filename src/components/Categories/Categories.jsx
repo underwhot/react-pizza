@@ -10,15 +10,13 @@ const categories = [
   'Закрытые',
 ];
 
-export const Categories = () => {
-  const [activeCategory, setActiveCategory] = useState('Все');
-
+export const Categories = ({ activeCategory, onClickCategory }) => {
   return (
     <div className="categories">
       <ul>
         {categories.map((category) => (
           <li
-            onClick={(e) => setActiveCategory(e.target.textContent)}
+            onClick={(e) => onClickCategory(e.target.textContent)}
             className={activeCategory === category ? 'active' : ''}
             key={category}
           >

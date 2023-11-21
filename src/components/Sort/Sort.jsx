@@ -1,10 +1,36 @@
+import { useEffect, useRef, useState } from 'react';
 import './Sort.scss';
 
-export const Sort = () => {
+const sortList = ['популярности', 'цене', 'алфавиту'];
+
+export const Sort = ({ activeSort, onClickSort }) => {
+  const [isSortVisible, setIsSortVisible] = useState(false);
+  const sortRef = useRef(null);
+
+  const changeSortHandler = (e) => {
+    onClickSort(e.target.textContent);
+    setIsSortVisible(false);
+  };
+
+  const clickOutsideHandler = (e) => {
+    if (sortRef.current && !sortRef.current.contains(e.target)) {
+      setIsSortVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', clickOutsideHandler);
+
+    return () => {
+      document.removeEventListener('click', clickOutsideHandler);
+    };
+  }, []);
+
   return (
-    <div class="sort">
-      <div class="sort__label">
+    <div ref={sortRef} className="sort">
+      <div className="sort__label">
         <svg
+          style={isSortVisible ? { transform: 'rotate(180deg)' } : null}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -17,15 +43,25 @@ export const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setIsSortVisible(!isSortVisible)}>
+          {activeSort}
+        </span>
       </div>
-      <div class="sort__popup">
-        <ul>
-          <li class="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isSortVisible && (
+        <div className="sort__popup">
+          <ul>
+            {sortList.map((item) => (
+              <li
+                onClick={changeSortHandler}
+                className={activeSort === item ? 'active' : ''}
+                key={item}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

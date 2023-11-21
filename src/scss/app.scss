@@ -18,7 +18,7 @@ body {
 }
 
 .content {
-  padding: 40px 0;
+  padding-bottom: 40px;
 
   &__title {
     margin: 35px 0;
@@ -27,7 +27,8 @@ body {
   &__items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    margin: 0 -30px -30px;
+    // justify-content: space-between;
   }
 
   &__top {
@@ -70,7 +71,7 @@ body {
       margin-right: 10px;
       path {
         stroke: $black;
-        strokeWidth: 1.9;
+        strokewidth: 1.9;
       }
     }
   }
@@ -259,7 +260,7 @@ body {
           margin-right: 12px;
           path {
             fill: transparent;
-            strokeWidth: 2;
+            strokewidth: 2;
           }
         }
       }
