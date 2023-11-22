@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+// import ReactPaginate from 'react-paginate';
 
 import { Categories } from '../components/Categories/Categories';
 import { Sort } from '../components/Sort/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { PizzaBlockSkeleton } from '../components/PizzaBlock/PizzaBlockSkeleton';
-import { useLocation } from 'react-router-dom';
+import { Context } from '../App';
 
 export const Home = () => {
+  const { searchValue } = useContext(Context);
   const [dataPizza, setDataPizza] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('Все');
@@ -44,9 +47,15 @@ export const Home = () => {
     window.scroll(0, 0);
   }, [pathname]);
 
-  const preloader = new Array(8)
+  const preloader = new Array(4)
     .fill(null)
     .map((_, i) => <PizzaBlockSkeleton key={i} />);
+
+  const pizzas = dataPizza
+    .filter((pizza) =>
+      pizza.title.toLowerCase().includes(searchValue.trim().toLowerCase())
+    )
+    .map((pizza) => <PizzaBlock {...pizza} key={pizza.id}></PizzaBlock>);
 
   return (
     <div className="container">
@@ -59,11 +68,7 @@ export const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
-          ? preloader
-          : dataPizza.map((pizza) => (
-              <PizzaBlock {...pizza} key={pizza.id}></PizzaBlock>
-            ))}
+        {isLoading ? preloader : pizzas}
       </div>
     </div>
   );
