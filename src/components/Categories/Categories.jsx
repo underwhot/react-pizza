@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectCategories } from '../../redux/slices/filterSlice';
 import './Categories.scss';
 
-const categories = [
-  'Все',
-  'Мясные',
-  'Вегетарианские',
-  'Гриль',
-  'Острые',
-  'Закрытые',
-];
+// const categories = [
+//   'Все',
+//   'Мясные',
+//   'Вегетарианские',
+//   'Гриль',
+//   'Острые',
+//   'Закрытые',
+// ];
 
 export const Categories = ({ activeCategory, onClickCategory }) => {
+  const categories = useSelector(selectCategories);
+
   return (
     <div className="categories">
       <ul>

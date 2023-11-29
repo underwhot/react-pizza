@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 // import ReactPaginate from 'react-paginate';
@@ -67,9 +67,7 @@ export const Home = () => {
         <Sort activeSort={activeSort} onClickSort={setActiveSort}></Sort>
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading ? preloader : pizzas}
-      </div>
+      <div className="content__items">{isLoading ? preloader : pizzas}</div>
     </div>
   );
 };
