@@ -4,20 +4,23 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 // import ReactPaginate from 'react-paginate';
 
-import { Context } from '../App';
 import { Categories } from '../components/Categories/Categories';
 import { Sort } from '../components/Sort/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { PizzaBlockSkeleton } from '../components/PizzaBlock/PizzaBlockSkeleton';
 
-import { selectCategory, selectSort } from '../redux/slices/filterSlice';
+import {
+  selectCategory,
+  selectSearchRequest,
+  selectSort,
+} from '../redux/slices/filterSlice';
 
 export const Home = () => {
-  const { searchValue } = useContext(Context);
   const [dataPizza, setDataPizza] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const activeCategory = useSelector(selectCategory);
   const activeSort = useSelector(selectSort);
+  const searchRequest = useSelector(selectSearchRequest);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -37,14 +40,14 @@ export const Home = () => {
 
     axios
       .get(
-        `https://654fb2ee358230d8f0cda05a.mockapi.io/pizzaData?${category}&${sort}&${order}`
+        `https://654fb2ee358230d8f0cda05a.mockapi.io/pizzaData?${category}&${sort}&${order}&search=${searchRequest}`
       )
       .then((res) => {
         setDataPizza(res.data);
         setIsLoading(false);
       })
       .catch((err) => console.error(err));
-  }, [activeCategory, activeSort]);
+  }, [activeCategory, activeSort, searchRequest]);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -54,11 +57,9 @@ export const Home = () => {
     .fill(null)
     .map((_, i) => <PizzaBlockSkeleton key={i} />);
 
-  const pizzas = dataPizza
-    .filter((pizza) =>
-      pizza.title.toLowerCase().includes(searchValue.trim().toLowerCase())
-    )
-    .map((pizza) => <PizzaBlock {...pizza} key={pizza.id}></PizzaBlock>);
+  const pizzas = dataPizza.map((pizza) => (
+    <PizzaBlock {...pizza} key={pizza.id}></PizzaBlock>
+  ));
 
   return (
     <div className="container">
