@@ -1,20 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 // import ReactPaginate from 'react-paginate';
 
+import { Context } from '../App';
 import { Categories } from '../components/Categories/Categories';
 import { Sort } from '../components/Sort/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { PizzaBlockSkeleton } from '../components/PizzaBlock/PizzaBlockSkeleton';
-import { Context } from '../App';
+
+import { selectCategory, selectSort } from '../redux/slices/filterSlice';
 
 export const Home = () => {
   const { searchValue } = useContext(Context);
   const [dataPizza, setDataPizza] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('Все');
-  const [activeSort, setActiveSort] = useState('популярности');
+  const activeCategory = useSelector(selectCategory);
+  const activeSort = useSelector(selectSort);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -60,11 +63,8 @@ export const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          activeCategory={activeCategory}
-          onClickCategory={setActiveCategory}
-        ></Categories>
-        <Sort activeSort={activeSort} onClickSort={setActiveSort}></Sort>
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? preloader : pizzas}</div>

@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { selectSort, setSort } from '../../redux/slices/filterSlice';
+
 import './Sort.scss';
 
 const sortList = ['популярности', 'цене', 'алфавиту'];
 
-export const Sort = ({ activeSort, onClickSort }) => {
+export const Sort = () => {
+  const activeSort = useSelector(selectSort);
   const [isSortVisible, setIsSortVisible] = useState(false);
   const sortRef = useRef(null);
+  const dispatch = useDispatch();
 
   const changeSortHandler = (e) => {
-    onClickSort(e.target.textContent);
+    dispatch(setSort(e.target.textContent));
     setIsSortVisible(false);
   };
 

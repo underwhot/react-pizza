@@ -1,22 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  categories: [
-    'Все',
-    'Мясные',
-    'Вегетарианские',
-    'Гриль',
-    'Острые',
-    'Закрытые',
-  ],
+  category: 'Все',
+  sort: 'популярности',
 };
 
 const filterSlice = createSlice({
   name: 'filter',
   initialState,
-  reducers: {},
+  reducers: {
+    setCategory: (state, action) => {
+      state.category = action.payload;
+    },
+    setSort: (state, action) => {
+      state.sort = action.payload;
+    },
+  },
 });
 
-export const selectCategories = (state) => state.filter.categories;
+export const { setCategory, setSort } = filterSlice.actions;
+
+export const selectCategory = (state) => state.filter.category;
+export const selectSort = (state) => state.filter.sort;
 
 export default filterSlice.reducer;
