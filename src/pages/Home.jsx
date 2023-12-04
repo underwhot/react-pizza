@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Categories } from '../components/Categories/Categories';
 import { Sort } from '../components/Sort/Sort';
@@ -13,18 +12,22 @@ import {
   selectSearchRequest,
   selectSort,
 } from '../redux/slices/filterSlice';
+import {
+  fetchPizzas,
+  selectIsLoadingViaAPI,
+  selectPizzas,
+} from '../redux/slices/pizzasSlice';
 
 export const Home = () => {
-  const [dataPizza, setDataPizza] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const dataPizza = useSelector(selectPizzas);
+  const isLoading = useSelector(selectIsLoadingViaAPI);
   const activeCategory = useSelector(selectCategory);
   const activeSort = useSelector(selectSort);
   const searchRequest = useSelector(selectSearchRequest);
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
-
     const category =
       activeCategory === 'Все' ? '' : `filter&category=${activeCategory}`;
     let sort;
@@ -37,15 +40,7 @@ export const Home = () => {
     }
     const order = 'order=asc';
 
-    axios
-      .get(
-        `https://654fb2ee358230d8f0cda05a.mockapi.io/pizzaData?${category}&${sort}&${order}&search=${searchRequest}`
-      )
-      .then((res) => {
-        setDataPizza(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => console.error(err));
+    dispatch(fetchPizzas({ category, sort, order, searchRequest }));
   }, [activeCategory, activeSort, searchRequest]);
 
   useEffect(() => {
